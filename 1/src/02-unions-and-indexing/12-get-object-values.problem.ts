@@ -6,7 +6,8 @@ const frontendToBackendEnumMap = {
   sharedModule: "SHARED_MODULE",
 } as const;
 
-type BackendModuleEnum = unknown;
+type FrontendToBackend = typeof frontendToBackendEnumMap
+type BackendModuleEnum = FrontendToBackend[keyof FrontendToBackend];
 
 type tests = [
   Expect<

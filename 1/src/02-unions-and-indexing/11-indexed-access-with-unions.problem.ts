@@ -1,4 +1,4 @@
-import { Equal, Expect } from "../helpers/type-utils";
+import { Equal, Expect } from "../helpers/type-utils"
 
 export const programModeEnumMap = {
   GROUP: "group",
@@ -7,9 +7,14 @@ export const programModeEnumMap = {
   SELF_DIRECTED: "selfDirected",
   PLANNED_ONE_ON_ONE: "planned1on1",
   PLANNED_SELF_DIRECTED: "plannedSelfDirected",
-} as const;
+} as const
 
-export type IndividualProgram = unknown;
+type ProgramModes = typeof programModeEnumMap
+type IndividualProgramKeys = Exclude<
+  keyof ProgramModes,
+  "GROUP" | "ANNOUNCEMENT"
+>
+export type IndividualProgram = ProgramModes[IndividualProgramKeys]
 
 type tests = [
   Expect<
@@ -17,5 +22,5 @@ type tests = [
       IndividualProgram,
       "1on1" | "selfDirected" | "planned1on1" | "plannedSelfDirected"
     >
-  >,
-];
+  >
+]
