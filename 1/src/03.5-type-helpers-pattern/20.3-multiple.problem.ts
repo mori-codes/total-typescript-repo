@@ -1,8 +1,8 @@
 import { Equal, Expect } from "../helpers/type-utils";
 
-type CreateDataShape = {
-  data: unknown;
-  error: unknown;
+type CreateDataShape<TData, TEerror> = {
+  data: TData;
+  error: TEerror;
 };
 
 type tests = [
