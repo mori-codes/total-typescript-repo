@@ -1,12 +1,16 @@
-import { expect, it, describe } from "vitest";
-import { Equal, Expect } from "../helpers/type-utils";
+import { expect, it, describe } from "vitest"
+import { Equal, Expect } from "../helpers/type-utils"
 
-export const getHomePageFeatureFlags = (
-  config: unknown,
-  override: (flags: unknown) => unknown
+type BaseConfig<THomeFlags extends Record<string, boolean>> = {
+  rawConfig: { featureFlags: { homePage: THomeFlags } },
+}
+
+export const getHomePageFeatureFlags = <T extends Record<string, boolean>>(
+  config: BaseConfig<T>,
+  override: (flags: T) => T
 ) => {
-  return override(config.rawConfig.featureFlags.homePage);
-};
+  return override(config.rawConfig.featureFlags.homePage)
+}
 
 describe("getHomePageFeatureFlags", () => {
   const EXAMPLE_CONFIG = {
@@ -25,36 +29,36 @@ describe("getHomePageFeatureFlags", () => {
         },
       },
     },
-  };
+  }
   it("Should return the homePage flag object", () => {
     const flags = getHomePageFeatureFlags(
       EXAMPLE_CONFIG,
       (defaultFlags) => defaultFlags
-    );
+    )
 
     expect(flags).toEqual({
       showBanner: true,
       showLogOut: false,
-    });
+    })
 
     type tests = [
       Expect<Equal<typeof flags, { showBanner: boolean; showLogOut: boolean }>>
-    ];
-  });
+    ]
+  })
 
   it("Should allow you to modify the result", () => {
     const flags = getHomePageFeatureFlags(EXAMPLE_CONFIG, (defaultFlags) => ({
       ...defaultFlags,
       showBanner: false,
-    }));
+    }))
 
     expect(flags).toEqual({
       showBanner: false,
       showLogOut: false,
-    });
+    })
 
     type tests = [
       Expect<Equal<typeof flags, { showBanner: boolean; showLogOut: boolean }>>
-    ];
-  });
-});
+    ]
+  })
+})
